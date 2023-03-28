@@ -23,7 +23,7 @@ export const Modal = ({image,closeModal})=> {
     return () => {
       window.removeEventListener('keydown', closeWithEsc);
     };
-  }, []);
+  }, [closeModal]);
 
 
  
