@@ -24,36 +24,39 @@ export const App =() => {
       return;
     }
     setIsLoading(true);
+    async function getPhotos() {
+      try {
+        const response = await fetchPhotos(searchQuery, page);
+        const arrayPhotos =  () =>
+        response.data.hits.map(({ id, webformatURL: image, largeImageURL: modalImage }) => ({
+         id,
+         image,
+         modalImage,
+       }));
+  
+      //  console.log(response.data.totalHits)
+      setPhotos (prevState => ([...prevState, ...arrayPhotos()]));
+      setTotalHits(response.data.totalHits)
+        if (!response.data.hits.length) {
+          return Promise.reject(
+            new Error(
+              toast.error(
+                'There is no images'
+              )
+            )
+          );
+        } else if ( page=== 1) {
+          toast.success(`There is some images`);
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false);
+      }
+    }
     getPhotos();
   },[page,searchQuery])
-  async function getPhotos() {
-    try {
-      const response = await fetchPhotos(searchQuery, page);
-      const arrayPhotos =  () =>
-      response.data.hits.map(({ id, webformatURL: image, largeImageURL: modalImage }) => ({
-       id,
-       image,
-       modalImage,
-     }));
-    setPhotos (prevState => ([...prevState, ...arrayPhotos()]));
-    setTotalHits(response.data.totalHits)
-      if (!response.data.hits.length) {
-        return Promise.reject(
-          new Error(
-            toast.error(
-              'There is no images'
-            )
-          )
-        );
-      } else if ( page=== 1) {
-        toast.success(`There is some images`);
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false);
-    }
-  }
+
 
 
   const handleFormSubmit = searchData => {

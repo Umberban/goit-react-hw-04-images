@@ -3,11 +3,7 @@ import css from './Modal.module.css';
 import PropTypes from 'prop-types';
 
 export const Modal = ({image,closeModal})=> {
-  const closeWithEsc = e => {
-    if (e.code === 'Escape') {
-      closeModal();
-    }
-  };
+ 
 
   const handleBackdrop = e => {
     if (e.target === e.currentTarget) {
@@ -17,6 +13,11 @@ export const Modal = ({image,closeModal})=> {
   
 
   useEffect(() => {
+    const closeWithEsc = e => {
+      if (e.code === 'Escape') {
+        closeModal();
+      }
+    };
     window.addEventListener('keydown', closeWithEsc);
 
     return () => {
