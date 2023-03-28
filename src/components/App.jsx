@@ -35,8 +35,6 @@ export const App =() => {
        image,
        modalImage,
      }));
-
-    //  console.log(response.data.totalHits)
     setPhotos (prevState => ([...prevState, ...arrayPhotos()]));
     setTotalHits(response.data.totalHits)
       if (!response.data.hits.length) {
